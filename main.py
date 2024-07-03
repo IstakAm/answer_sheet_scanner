@@ -8,10 +8,11 @@ from student import get_id
 sheets_path = 'sheets/'
 all_reports = []
 student_index = 0
+print("scanning files and generating report files")
 for file_name in os.listdir(sheets_path):
     
     file_path = os.path.join(sheets_path, file_name)
-    
+    print(f"scanning {file_name}")
 
     image = cv2.imread(file_path)
     id = get_id(image)
@@ -40,6 +41,7 @@ for file_name in os.listdir(sheets_path):
             all_choices.extend(choices)
             whole_image[(j * height_part):((j + 1) * height_part), (i * width_part):((i + 1) * width_part)] = row
         image_parts.append(rows)
+    print("generating report")
     cv2.imwrite(f'transcripts/transcript_{id}.jpg', image)
     
     all_reports.append({
@@ -52,8 +54,7 @@ for file_name in os.listdir(sheets_path):
 
 summary_df = pd.DataFrame(all_reports)
 summary_df.to_excel(f'reports/summary_report.xlsx', index=False)
-
-
+print("all reports generated")
 
 
 
